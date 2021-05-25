@@ -8,7 +8,11 @@
 
 import Foundation
 
-class Item {
+class Item: Encodable, Decodable {
     var task = ""
     var done = false
+    
+    init(_ task: String) {
+        self.task = task
+    }
 }
