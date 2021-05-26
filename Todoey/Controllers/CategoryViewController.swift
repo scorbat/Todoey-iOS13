@@ -32,9 +32,8 @@ class CategoryViewController: UITableViewController {
             let category = Category()
             category.name = alertTextField!.text!
             
-            self.tableView.reloadData()
-            
             self.saveItem(category)
+            self.tableView.reloadData()
         }
         
         alert.addTextField { textField in

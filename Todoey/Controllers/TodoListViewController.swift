@@ -83,6 +83,7 @@ class TodoListViewController: UITableViewController {
                     try self.realm.write {
                         let item = Item()
                         item.title = textField.text!
+                        item.dateCreated = Date()
                         current.items.append(item)
                     }
                 } catch {
@@ -104,31 +105,6 @@ class TodoListViewController: UITableViewController {
     
     //MARK: Model manipulation methods
     
-    func saveItems() {
-//        do {
-//            try context.save()
-//        } catch {
-//            print("Error encoding item array, \(error)")
-//        }
-    }
-    
-//    func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest(), predicate: NSPredicate? = nil) {
-//        let categoryPredicate = NSPredicate(format: "parentCategory.name MATCHES %@", selectedCategory!.name!)
-//
-//        if let safePred = predicate {
-//            request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate, safePred])
-//        } else {
-//            request.predicate = categoryPredicate
-//        }
-//
-//        do {
-//            itemArray = try context.fetch(request)
-//            tableView.reloadData()
-//        } catch {
-//            print("Error retrieving items, \(error)")
-//        }
-//    }
-    
     func loadItems() {
         items = selectedCategory?.items.sorted(byKeyPath: "title", ascending: true)
     }
@@ -140,7 +116,8 @@ class TodoListViewController: UITableViewController {
 extension TodoListViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         items = items?.filter("title CONTAINS[cd] %@", searchBar.text!)
-            .sorted(byKeyPath: "title", ascending: true)
+            .sorted(byKeyPath: "dateCreated", ascending: true)
+        tableView.reloadData()
     }
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
